@@ -1,0 +1,92 @@
+<!DOCTYP] html>
+<html lang="en" style="font-size:14px">
+  <head>
+    <title>Road Marking Viewer</title>
+    <link rel="icon" type="image/x-icon" href="./icons/favicon.ico">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  </head>
+  <body>
+  <div class="container-fluid">
+    <div class="row" style="height:7%;background-color:#41464b">
+      <div class="col">
+        <div id="attributeFilter" class="button-group">
+          <div class="dropdown py-2 d-inline-block">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="ddmSiteId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Site ID
+            </button>
+            <div class="dropdown-menu" aria-labelledby="ddmSiteId" style="max-height: 500px;overflow-y: scroll;">
+              <div class="form-group">
+                <input type="number" class="form-control" id="searchSiteId" style="margin-left:10px;width:90%" placeholder="Search SiteID" onInput="searchSiteIds(this.value)">
+                <div class="dropdown-divider"></div>
+                <div class="d-flex" id="optionsForm">
+                  <button class="dropdown-item link-primary" data-toggle="" style="font-size:10px" id="selectAllSites">Select All</button>
+                  <button class="dropdown-item link-primary" data-toggle="" style="font-size:10px" id="deselectAllSites">Deselect All</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown py-2 d-inline-block">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="ddmSide" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Side
+            </button>
+            <div class="dropdown-menu" aria-labelledby="ddmSide">
+            </div>
+          </div>
+          <div class="dropdown py-2 d-inline-block">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="ddmWheelTrack" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Wheel Track
+            </button>
+            <div class="dropdown-menu" aria-labelledby="ddmWheelTrack">
+            </div>
+          </div>
+          <!--div class="dropdown py-2 d-inline-block">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="ddmLength" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Length
+            </button>
+            <div class="dropdown-menu px-3" aria-labelledby="ddmLength">
+              <div class="input-group mb-3">
+                <span class="input-group-text">Min</span>
+                <input type="number" class="form-control" id="minLength" placeholder="Minimum">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Max</span>
+                <input type="number" class="form-control" id="maxLength" placeholder="Maximum">
+              </div>
+              <button type="submit" class="btn btn-dark" id="btnShowLengths">Show</button>
+            </div>
+          </div-->
+          <div class="dropdown py-2 d-inline-block">
+            <button class="btn btn-dark dropdown-toggle" type="button" id="ddmWidth" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Width
+            </button>
+            <div class="dropdown-menu" aria-labelledby="ddmWidth">
+            </div>
+          </div>
+          <div class="d-inline-block"></div>
+            <button type="button" id="btnExportToKml" class="btn btn-dark my-2 float-end" style="margin-right:5px">Get KML</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="height:93%">
+      <div class="col">
+        <div id="map" style="height:100%;width:100%;">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- prettier-ignore -->
+  <script>
+    let APIKEY = "<YOUR_API_KEY>";
+  </script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+    ({key: APIKEY, v: "beta"});</script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+  <script src="https://unpkg.com/measuretool-googlemaps-v3"></script>
+  <script type="module" src="./index.js"></script>
+</body>
+</html>
