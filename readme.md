@@ -1,3 +1,6 @@
+About:
+Uploading point-data from CSV file, connecting these points using Google Direction Service and then displaying them on Google Maps.
+
 Instructions:
 1. Install node.js from https://nodejs.org/en
 2. Go to command line and navigate to road-markings folder
